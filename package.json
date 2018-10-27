@@ -7,12 +7,15 @@
   "private": false,
   "dependencies": {
     "axios": "^0.17.0",
+    "bootstrap-vue": "^2.0.0-rc.11",
     "element-ui": "^2.0.1",
     "lodash": "^4.17.4",
     "vue": "^2.5.2",
     "vue-meta": "^1.2.0",
     "vue-pouch": "^0.0.22",
     "vue-router": "^3.0.1",
+    "vue-yoast": "^0.1.0",
+    "vue-yoast-bootstrap": "^0.1.0",
     "vuex": "^3.0.0"
   },
   "scripts": {
