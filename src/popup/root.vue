@@ -2,16 +2,16 @@
   <div>
     <b-container>
       <b-row>
-        <b-col sm="12">
-          <small>YoastSEO for Alboom ProSite</small>
+        <b-col sm="12" v-if="!pluginVisible">
+          <small>{{pluginTitle}}</small>
         </b-col>
-        <b-col >
+        <b-col v-if="pluginVisible">
           <b-card header="Snippet Preview" class="mb-2">
             <snippet-preview
               :title="metaTitle"
               :description="metaDescription"
               :url="url"
-              baseUrl="https://my-site.com/"
+              baseUrl="https://www.rafaellabarros.com/"
               @update:titleWidth="(value) => titleWidth = value"
               @update:titleLengthPercent="(value) => titleLengthPercent = value"
               @update:descriptionLengthPercent="(value) => descriptionLengthPercent = value" />
@@ -22,7 +22,7 @@
               :titleWidth="titleWidth"
               :description="metaDescription"
               :url="url"
-              :text="description"
+              :text="text"
               :locale="locale"
               :translations="translations"
               :resultFilter="assessorResultFilter" />
@@ -38,7 +38,7 @@
                   :title="metaTitle"
                   :description="metaDescription"
                   :url="url"
-                  :text="description"
+                  :text="text"
                   :locale="locale"
                   :translations="translations"
                   :resultFilter="assessorResultFilter" />
@@ -55,6 +55,7 @@
   import BootstrapVue from 'bootstrap-vue'
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
+  import fetchCheerio from 'fetch-cheerio-object'
   import ContentAssessor from 'vue-yoast-bootstrap/src/components/ContentAssessor'
   import SeoAssessor from 'vue-yoast-bootstrap/src/components/SeoAssessor'
   import SnippetPreview from 'vue-yoast-bootstrap/src/components/SnippetPreview'
@@ -68,19 +69,20 @@
       SnippetPreview
     },
     data: () => ({
+      pluginTitle: 'Carregando...',
       focusKeywords: [
-        'One',
-        'Amazing',
-        'Keyword'
+        'fotografia',
+        'ensaio feminino'
       ],
-      metaTitle: 'My Amazing Title',
-      metaDescription: 'The short description',
-      url: 'page/1',
-      description: '<h2>Here is subtitle!</h2> and some contents in HTML',
+      metaTitle: '',
+      metaDescription: '',
+      url: '',
+      text: '',
       titleWidth: 0,
       titleLengthPercent: 0,
       descriptionLengthPercent: 0,
       translations: null,
+      pluginVisible: false,
       locale: 'en_US',
       localeOptions: [
         {
@@ -90,7 +92,25 @@
       ]
     }),
     computed: { },
-    created () { },
+    created () {
+      var $el = this
+      chrome.tabs.query({currentWindow: true, active: true}, function (tabs) {
+        var activeTab = tabs[0]
+        if (activeTab.url.startsWith('https://prosite.alboompro.com')) {
+          chrome.tabs.sendMessage(activeTab.id, {greeting: 'hello', message: 'start'}, function (response) {
+            fetchCheerio(response.previewUrl).then($ => {
+              $el.pluginVisible = true
+              $el.metaTitle = $('title').text()
+              $el.metaDescription = $('meta[name=description]').attr('content')
+              $el.url = $('link[rel=canonical]').attr('href').replace('http://www.rafaellabarros.com/', '')
+              $el.text = $('main#albumPageDescription').html()
+            })
+          })
+        } else {
+          $el.pluginTitle = 'Esse plugin só pode ser usado no Alboom ProSite.'
+        }
+      })
+    },
     mounted () { },
     methods: {
       tab () {
