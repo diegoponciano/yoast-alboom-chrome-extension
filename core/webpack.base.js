@@ -10,7 +10,7 @@ module.exports = {
     tab: resolve('./tab'),
     popup: resolve('./popup'),
     options: resolve('./options'),
-    content: resolve('./content'), 
+    content: resolve('./content'),
     devtools: resolve('./devtools'),
     background: resolve('./backend'),
     panel: resolve('./devtools/panel'),
