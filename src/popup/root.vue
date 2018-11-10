@@ -97,19 +97,20 @@
       var $el = this
       chrome.tabs.query({currentWindow: true, active: true}, function (tabs) {
         var activeTab = tabs[0]
-        if (activeTab.url.startsWith('https://prosite.alboompro.com')) {
+        if (activeTab.url.startsWith('https://prosite.alboompro.com/content/portfolio')) {
           chrome.tabs.sendMessage(activeTab.id, {greeting: 'hello', message: 'start'}, function (response) {
             fetchCheerio(response.previewUrl).then($ => {
               $el.pluginVisible = true
               $el.metaTitle = $('title').text()
               $el.metaDescription = $('meta[name=description]').attr('content')
               var canonicalUrl = $('link[rel=canonical]').attr('href')
-              $el.url = URL(canonicalUrl).pathname.substr(1)
+              $el.url = new URL(canonicalUrl).pathname.substr(1)
               $el.text = $('main#albumPageDescription').html()
+              // $el.text = document.querySelector('.fr-box').outerHTML
             })
           })
         } else {
-          $el.pluginTitle = 'Esse plugin só pode ser usado no Alboom ProSite.'
+          $el.pluginTitle = 'Esse plugin só pode ser no admin de edição do Alboom ProSite.'
         }
       })
     },
