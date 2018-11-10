@@ -1,8 +1,8 @@
-const path = require('path')
-const webpack = require('webpack')
-const ChromeReloadPlugin  = require('wcer')
-const {cssLoaders, htmlPage} = require('./tools')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const path = require('path');
+const webpack = require('webpack');
+const ChromeReloadPlugin  = require('wcer');
+const {cssLoaders, htmlPage} = require('./tools');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 let resolve = dir => path.join(__dirname, '..', 'src', dir)
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
     options: resolve('./options'),
     content: resolve('./content'),
     devtools: resolve('./devtools'),
-    background: resolve('./backend'),
+      // background: resolve('./backend'),
     panel: resolve('./devtools/panel'),
     inject: resolve('./content/inject'),
   },
@@ -95,7 +95,7 @@ module.exports = {
     htmlPage('panel', 'panel', ['manifest', 'vendor', 'panel']),
     htmlPage('devtools', 'devtools', ['manifest', 'vendor', 'devtools']),
     htmlPage('options', 'options', ['manifest', 'vendor', 'options']),
-    htmlPage('background', 'background', ['manifest', 'vendor', 'background']),
+      // htmlPage('background', 'background', ['manifest', 'vendor', 'background']),
     new CopyWebpackPlugin([{ from: path.join(__dirname, '..', 'static') }]),
     new ChromeReloadPlugin({
       port: 9090,
