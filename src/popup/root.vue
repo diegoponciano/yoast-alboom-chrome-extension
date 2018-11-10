@@ -1,21 +1,22 @@
 <template>
-  <div>
+  <div class="root">
+    <div v-if="pluginVisible">
+      <h6>Snippet Preview</h6>
+      <snippet-preview
+        :title="metaTitle"
+        :description="metaDescription"
+        :url="url"
+        baseUrl="https://www.rafaellabarros.com/"
+        @update:titleWidth="(value) => titleWidth = value"
+        @update:titleLengthPercent="(value) => titleLengthPercent = value"
+        @update:descriptionLengthPercent="(value) => descriptionLengthPercent = value" />
+    </div>
     <b-container>
       <b-row>
         <b-col sm="12" v-if="!pluginVisible" v-bind:class="{ warning: !pluginVisible }">
           <small>{{pluginTitle}}</small>
         </b-col>
         <b-col v-if="pluginVisible">
-          <b-card header="Snippet Preview" class="mb-2">
-            <snippet-preview
-              :title="metaTitle"
-              :description="metaDescription"
-              :url="url"
-              baseUrl="https://www.rafaellabarros.com/"
-              @update:titleWidth="(value) => titleWidth = value"
-              @update:titleLengthPercent="(value) => titleLengthPercent = value"
-              @update:descriptionLengthPercent="(value) => descriptionLengthPercent = value" />
-          </b-card>
           <b-card header="Content Assessor" class="mb-2">
             <content-assessor
               :title="metaTitle"
@@ -58,7 +59,7 @@
   import fetchCheerio from 'fetch-cheerio-object'
   import ContentAssessor from 'vue-yoast-bootstrap/src/components/ContentAssessor'
   import SeoAssessor from 'vue-yoast-bootstrap/src/components/SeoAssessor'
-  import SnippetPreview from 'vue-yoast-bootstrap/src/components/SnippetPreview'
+  import SnippetPreview from '../components/SnippetPreview'
 
   Vue.use(BootstrapVue)
 
@@ -130,5 +131,17 @@
   div.warning {
     min-width: 320px;
     padding: 20px;
+  }
+  .section-body {
+    padding: 0.6rem 1rem;
+  }
+  .snippet-preview .description span {
+    width: auto;
+  }
+  h3, h4, h5, h6 {
+    padding: 0.4rem 1rem;
+    margin-bottom: 0.2rem;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   }
 </style>
