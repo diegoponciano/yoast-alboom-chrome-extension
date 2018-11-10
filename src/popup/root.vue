@@ -2,7 +2,7 @@
   <div>
     <b-container>
       <b-row>
-        <b-col sm="12" v-if="!pluginVisible">
+        <b-col sm="12" v-if="!pluginVisible" v-bind:class="{ warning: !pluginVisible }">
           <small>{{pluginTitle}}</small>
         </b-col>
         <b-col v-if="pluginVisible">
@@ -125,5 +125,9 @@
 <style lang="scss">
   div.container {
     max-width: 600px;
+  }
+  div.warning {
+    min-width: 320px;
+    padding: 20px;
   }
 </style>
