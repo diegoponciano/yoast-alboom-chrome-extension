@@ -30,7 +30,7 @@
           </b-card>
           <b-card header="SEO Assessor" class="mb-2" no-body>
             <b-tabs card>
-              <b-tab :title="'FocusKeyword ' + (index + 1)" v-for="focusKeyword, index in focusKeywords" :key="index">
+              <b-tab :title="'FocusKeyword ' + (index + 1)" v-for="(focusKeyword, index) in focusKeywords" :key="index">
                 <b-form-group label="Focus Keyword">
                   <b-form-textarea v-model="focusKeywords[index]" />
                 </b-form-group>
