@@ -102,7 +102,8 @@
               $el.pluginVisible = true
               $el.metaTitle = $('title').text()
               $el.metaDescription = $('meta[name=description]').attr('content')
-              $el.url = $('link[rel=canonical]').attr('href').replace('http://www.rafaellabarros.com/', '')
+              var canonicalUrl = $('link[rel=canonical]').attr('href')
+              $el.url = URL(canonicalUrl).pathname.substr(1)
               $el.text = $('main#albumPageDescription').html()
             })
           })
