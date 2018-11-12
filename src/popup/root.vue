@@ -60,6 +60,7 @@
   import ContentAssessor from 'vue-yoast-bootstrap/src/components/ContentAssessor'
   import SeoAssessor from 'vue-yoast-bootstrap/src/components/SeoAssessor'
   import SnippetPreview from '../components/SnippetPreview'
+  import {getTranslation} from '../languages/detect.js'
 
   Vue.use(BootstrapVue)
 
@@ -84,16 +85,24 @@
       descriptionLengthPercent: 0,
       translations: null,
       pluginVisible: false,
-      locale: 'en_US',
+      locale: 'pt_BR',
       localeOptions: [
         {
           text: 'en_US',
           value: 'en_US'
+        },
+        {
+          text: 'pt_BR',
+          value: 'pt_BR'
         }
       ]
     }),
     computed: { },
     created () {
+      getTranslation().then((translation) => {
+        this.translations = translation
+      })
+
       var $el = this
       chrome.tabs.query({currentWindow: true, active: true}, function (tabs) {
         var activeTab = tabs[0]
